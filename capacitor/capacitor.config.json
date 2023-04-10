@@ -1,0 +1,11 @@
+{
+  "appId": "com.emma.store.admin.mobile",
+  "appName": "EmmaStore Admin",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

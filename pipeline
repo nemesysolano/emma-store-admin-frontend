@@ -1,0 +1,52 @@
+#!/bin/bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+CAPACITOR_DIR="${SCRIPT_DIR}/capacitor"
+CAPACITOR_DIST_DIR="${CAPACITOR_DIR}/dist"
+CAPACITOR_DIR="${SCRIPT_DIR}/capacitor"
+
+shopt -s extglob
+
+function compile_react() {
+    local WEB_APP_DIR="${SCRIPT_DIR}/web"
+    echo "Compiling React App..."
+    cd $WEB_APP_DIR
+    npm run-script build
+    local STATUS=$?
+    cd $SCRIPT_DIR
+
+    if [ $STATUS -ne 0 ]
+    then
+        echo "💀 React compilation failed!"
+        return -1
+    fi
+
+    echo "✓ React compilation succeded!"
+}
+
+function copy_react_build() {
+    local WEB_APP_DIST_DIR="${SCRIPT_DIR}/web/build"
+    echo "Copying React assets to capacitor..."
+    # Delete all files from CAPACITOR_DIST_DIR except .gitkeep
+    cd ${CAPACITOR_DIST_DIR}
+    rm -rf  *
+    touch .gitkeep
+    
+    cd ${CAPACITOR_DIR}
+    cp -R ${WEB_APP_DIST_DIR}/* ${CAPACITOR_DIST_DIR}
+
+    echo "✓ React assets copied!"
+}
+
+function create_android_build() {
+    local WEB_APP_DIST_DIR="${SCRIPT_DIR}/web/build"
+
+    echo "Copying React assets to capacitor..."
+    # Delete all files from CAPACITOR_DIST_DIR except .gitkeep
+    cd ${CAPACITOR_DIR}
+    npx cap sync
+}
+
+compile_react
+copy_react_build
+create_android_build

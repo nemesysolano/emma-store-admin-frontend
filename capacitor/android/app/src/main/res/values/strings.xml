@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">EmmaStore Admin</string>
+    <string name="title_activity_main">EmmaStore Admin</string>
+    <string name="package_name">com.emma.store.admin.mobile</string>
+    <string name="custom_url_scheme">com.emma.store.admin.mobile</string>
+</resources>
